@@ -7,10 +7,6 @@ require_once('./models/frontend/nav.php');
 
 
 function home(){//articles
-	if(isset($_GET['logout'])){
-		$_SESSION['logged'] = FALSE;
-		header('location:index.php');
-    }
     $homeArticles = articleList();
     $categoriesList = nav();
     require('././views/frontend/index.php');
@@ -78,11 +74,10 @@ if(isset($_POST['login'])){
         $selectedLogin = user_info($_POST['email'], $_POST['password']);
 		if($_POST['email'] == $selectedLogin['email'] AND md5($_POST['password']) == $selectedLogin['password'] ){
 			$_SESSION['user']['firstname'] = $selectedLogin['firstname'];
-			$_SESSION['user']['logged'] = TRUE;
 			$_SESSION['user']['is_admin'] = $selectedLogin['is_admin'];
             $_SESSION['user']['id'] = $selectedLogin['id'];
-			// header('location:index.php');
-			// exit;
+			header('location:index.php');
+			exit;
 		}elseif($_POST['email'] == $selectedLogin['email'] AND md5($_POST['password']) !== $selectedLogin['password']){
 			$alerts['error_acces'] ="Le mot de passe n'est pas correcte";
 
@@ -104,10 +99,10 @@ if(isset($_POST['register'])){
 	if(!empty($_POST['firstname']) AND !empty($_POST['email']) AND !empty($_POST['password']) AND !empty($_POST['password_confirm'])){
         $mailExiste = mail_existe($_POST['email']);
 		if(!$mailExiste AND $_POST['password'] == $_POST['password_confirm']){
-            $queryCategoryExiste = new_visitor($_POST['firstname'], $_POST['lastname'], $_POST['email'], $_POST['password'], $_POST['bio']);
+            $lastInsert = new_visitor($_POST['firstname'], $_POST['lastname'], $_POST['email'], $_POST['password'], $_POST['bio']);
 			$_SESSION['user']['firstname'] = $_POST['firstname'];
-			$_SESSION['user']['logged'] = TRUE;
-			// $_SESSION['is_admin'] = false;
+            $_SESSION['user']['is_admin'] = 0;
+            $_SESSION['user']['id']= $lastInsert;
 			header('location:index.php');
 			exit;
 		}elseif($mailExiste){

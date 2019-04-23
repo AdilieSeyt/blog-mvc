@@ -20,10 +20,11 @@ function mail_existe($email){
 function new_visitor($firstname, $lastname, $email, $password, $bio ){
     $db = dbConnect();
     $queryCategoryExiste = $db->prepare('INSERT INTO user (firstname, lastname, email, password,  bio ) VALUES (?, ?, ?, ?, ?)');
-    return $queryCategoryExiste->execute( array( 
+    $queryCategoryExiste->execute( array( 
     htmlspecialchars($firstname), 
     htmlspecialchars($lastname), 
     htmlspecialchars($email), 
     md5($password), 
     htmlspecialchars($bio)));
+    return $db->$lastInsertId();
 }

@@ -29,6 +29,10 @@ if(isset($_GET['page'])){
 
 }
 else{
+  if(isset($_GET['logout'])){
+    unset($_SESSION['user']);
+		header('location:index.php');
+    }
     home();
 
 }

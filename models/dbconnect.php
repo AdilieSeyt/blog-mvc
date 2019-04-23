@@ -12,6 +12,7 @@ function dbConnect(){
   {
     die( 'Erreur : ' . $exception->getMessage() );
   }
-  session_start();
 
 }
+
+session_start();
