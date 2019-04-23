@@ -138,7 +138,7 @@ $success =[];
 
 
 //si on modifie un utilisateur, on doit séléctionner l'utilisateur en question (id envoyé dans URL) pour pré-remplir le formulaire plus bas
-if(isset($_GET['user_id'])){
+if(isset($_SESSION['user']['id'])){
     $user = userInfo($_SESSION['user']['id']);
 }
 
@@ -165,10 +165,10 @@ if(isset($_POST['update'])){
         header('location:index.php');
         exit;
     }
-    // $user['firstname'] = $_POST['firstname'];
-    // $user['lastname'] = $_POST['lastname'];
-    // $user['email'] = $_POST['email'];
-    // $user['bio'] = $_POST['bio'];
+    $user['firstname'] = $_POST['firstname'];
+    $user['lastname'] = $_POST['lastname'];
+    $user['email'] = $_POST['email'];
+    $user['bio'] = $_POST['bio'];
 }
 require ('././views/frontend/profile.php');
 

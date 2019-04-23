@@ -26,5 +26,5 @@ function new_visitor($firstname, $lastname, $email, $password, $bio ){
     htmlspecialchars($email), 
     md5($password), 
     htmlspecialchars($bio)));
-    return $db->$lastInsertId();
+    return $db->lastInsertId();
 }
